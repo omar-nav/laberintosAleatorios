@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(49, 43, 43);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#maze {
+  padding-top: 5vh;
+}
+#someCanvas {
+  padding-top: 3vh;
+  padding-bottom: 0vh;
+  padding-left: 32vh;
+  width: 380vh;
+  height: 720px;
+}
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+#container {
+  background-color: white;
+  width: 500px;
+  height: 300px;
+}

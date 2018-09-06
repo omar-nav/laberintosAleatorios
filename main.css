@@ -1,0 +1,124 @@
+/* colores
+#ca0020 rojo
+#f4a582 naranja
+#bababa marron 
+#404040 gris 
+rgb(220, 40, 40); tufte red
+#d7191c  color brewer red
+#fdae61  color brewer tan
+#abd9e9 color brewer light blue
+#2c7bb6  color brewer blue
+*/
+
+/* body {
+  background-color: rgb(255, 255, 243);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: rgb(49, 43, 43);
+  text-align: center;
+}
+section {
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* flex-direction: column; */
+}
+/* #someCanvas {
+  width: 512px;
+  height: 512px;
+  border: solid 5px #000;
+} */
+
+h1 {
+  padding: 0;
+  margin: 0;
+  font-family: "Indie Flower", cursive;
+  font-size: 48px;
+  color: whitesmoke;
+}
+a {
+  text-decoration: none;
+  color: black;
+  padding: 0;
+  margin: 0;
+}
+h4 {
+  color: #ff3300;
+  margin: 0;
+  padding: 0;
+  font-family: "Indie Flower", cursive;
+  font-size: 30px;
+}
+#life {
+  color: white;
+}
+#someCanvas {
+  visibility: hidden;
+  padding: none;
+  width: 0px;
+  height: 0px;
+}
+#out {
+  /* display: inline-flex;
+  width: 30px; */
+  /* color: rgb(201, 150, 150); */
+  color: wheat;
+  font-size: 14px;
+}
+.button {
+  font-family: "Indie Flower", cursive;
+  font-weight: bold;
+  display: inline-block;
+  padding: 15px 25px;
+  margin: 0 10px 0 0;
+  font-size: 32px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  background-color: #ff3300;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 9px rgb(95, 95, 95);
+}
+#proceder {
+  margin-top: 40px;
+  background-color: #6699ff;
+}
+
+.button:hover {
+  background: red; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(
+    left,
+    orange,
+    yellow,
+    green,
+    cyan,
+    blue,
+    violet
+  );
+}
+
+.button:active {
+  /* background-color: #3e8e41; */
+  background: red; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(
+    left,
+    orange,
+    yellow,
+    green,
+    cyan,
+    blue,
+    violet
+  );
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}

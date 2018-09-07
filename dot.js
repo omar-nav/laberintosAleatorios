@@ -78,7 +78,7 @@ class Dot {
         if (this.culpritKey === 83) {
           this.y -= 2;
         }
-        // blue starts
+        // blue culprits
         if (this.culpritKey === 39) {
           this.x -= 2;
         }
@@ -330,7 +330,7 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[38] &&
     blue.touchingWall === false &&
-    pink.powerUp === false &&
+    blue.powerUp === false &&
     blue.powerDown === false
   ) {
     blue.y -= 0.75;
@@ -430,7 +430,7 @@ function update() {
     backgroundMaze.keys[39] &&
     blue.touchingWall === false &&
     blue.powerUp === true &&
-    blue.powerDown === true
+    blue.powerDown === false
   ) {
     blue.x += 3;
     blue.lastKey = 39;
@@ -440,7 +440,7 @@ function update() {
     backgroundMaze.keys[37] &&
     blue.touchingWall === false &&
     blue.powerUp === true &&
-    blue.powerDown === true
+    blue.powerDown === false
   ) {
     blue.x -= 3;
     blue.lastKey = 37;
@@ -450,7 +450,7 @@ function update() {
     backgroundMaze.keys[40] &&
     blue.touchingWall === false &&
     blue.powerUp === true &&
-    blue.powerDown === true
+    blue.powerDown === false
   ) {
     blue.y += 3;
     blue.lastKey = 40;
@@ -459,8 +459,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[38] &&
     blue.touchingWall === false &&
-    pink.powerUp === true &&
-    blue.powerDown === true
+    blue.powerUp === true &&
+    blue.powerDown === false
   ) {
     blue.y -= 3;
     blue.lastKey = 38;

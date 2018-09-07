@@ -8,7 +8,8 @@ var interval;
 var images = {
   pinkDot: "./images/pinkDot.png",
   blueDot: "./images/blueDot.svg",
-  ironHack: "./images/IronHackLogo.png"
+  ironHack: "./images/IronHackLogo.png",
+  rabbit: "./images/rabbit.png"
 };
 
 class Maze {
@@ -35,6 +36,7 @@ class Dot {
     this.width = 7; // 9
     this.height = 7; // 9
     this.touchingWall = false;
+    this.powerUp = false;
     this.culpritKey = 0;
     this.lastKey = 0;
     this.image = new Image();
@@ -125,11 +127,42 @@ class Prize {
     return false;
   }
 }
+class Rabbit {
+  constructor(x, y, image) {
+    this.x = x;
+    this.y = y;
+    this.width = 23;
+    this.height = 10;
+    this.image = new Image();
+    this.image.src = image;
+    this.image.onload = () => {
+      this.draw();
+    };
+    // this.touch = new Audio();
+    // this.touch.src = "./sounds/JSnoTeEspera.m4a";
+  }
+  draw() {
+    context.drawImage(this.image, this.x, this.y, this.width, this.height);
+  }
+  touchWith(item) {
+    var touch =
+      this.x < item.x + item.width &&
+      this.x + this.width > item.x &&
+      this.y < item.y + item.height &&
+      this.y + this.height > item.y;
+    if (touch) {
+      // this.touch.play();
+      return true;
+    }
+    return false;
+  }
+}
 // instancias
 let backgroundMaze = new Maze();
 let pink = new Dot(9, 4, images.pinkDot);
 let blue = new Dot(209, 129, images.blueDot);
 let logo = new Prize(102, 59, images.ironHack);
+let rabbit = new Rabbit(4, 130, images.rabbit);
 
 function update() {
   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -138,13 +171,18 @@ function update() {
   pink.draw();
   blue.draw();
   logo.draw();
+
+  if (pink.powerUp === false && blue.powerUp === false) {
+    rabbit.draw();
+  }
   checkTouch();
   checkvals();
   //pink keys are 68, 65, 87, 83
   if (
     backgroundMaze.keys &&
     backgroundMaze.keys[68] &&
-    pink.touchingWall === false
+    pink.touchingWall === false &&
+    pink.powerUp === false
   ) {
     pink.x += 0.75;
     pink.lastKey = 68;
@@ -152,7 +190,8 @@ function update() {
   if (
     backgroundMaze.keys &&
     backgroundMaze.keys[65] &&
-    pink.touchingWall === false
+    pink.touchingWall === false &&
+    pink.powerUp === false
   ) {
     pink.x -= 0.75;
     pink.lastKey = 65;
@@ -160,7 +199,8 @@ function update() {
   if (
     backgroundMaze.keys &&
     backgroundMaze.keys[87] &&
-    pink.touchingWall === false
+    pink.touchingWall === false &&
+    pink.powerUp === false
   ) {
     pink.y -= 0.75;
     pink.lastKey = 87;
@@ -168,7 +208,8 @@ function update() {
   if (
     backgroundMaze.keys &&
     backgroundMaze.keys[83] &&
-    pink.touchingWall === false
+    pink.touchingWall === false &&
+    pink.powerUp === false
   ) {
     pink.y += 0.75;
     pink.lastKey = 83;
@@ -177,7 +218,8 @@ function update() {
   if (
     backgroundMaze.keys &&
     pink.culpritKey === 68 &&
-    pink.touchingWall === true
+    pink.touchingWall === true &&
+    (pink.powerUp === false || pink.powerUp === true)
   ) {
     pink.x += 0;
     pink.lastKey = 68;
@@ -185,7 +227,8 @@ function update() {
   if (
     backgroundMaze.keys &&
     pink.culpritKey === 65 &&
-    pink.touchingWall === true
+    pink.touchingWall === true &&
+    (pink.powerUp === false || pink.powerUp === true)
   ) {
     pink.x -= 0;
     pink.lastKey = 65;
@@ -193,7 +236,8 @@ function update() {
   if (
     backgroundMaze.keys &&
     pink.culpritKey === 87 &&
-    pink.touchingWall === true
+    pink.touchingWall === true &&
+    (pink.powerUp === false || pink.powerUp === true)
   ) {
     pink.y += -0;
     pink.lastKey = 87;
@@ -201,7 +245,8 @@ function update() {
   if (
     backgroundMaze.keys &&
     pink.culpritKey === 83 &&
-    pink.touchingWall === true
+    pink.touchingWall === true &&
+    (pink.powerUp === false || pink.powerUp === true)
   ) {
     pink.y += 0;
     pink.lastKey = 83;
@@ -210,7 +255,8 @@ function update() {
   if (
     backgroundMaze.keys &&
     backgroundMaze.keys[39] &&
-    blue.touchingWall === false
+    blue.touchingWall === false &&
+    blue.powerUp === false
   ) {
     blue.x += 0.75;
     blue.lastKey = 39;
@@ -218,7 +264,8 @@ function update() {
   if (
     backgroundMaze.keys &&
     backgroundMaze.keys[37] &&
-    blue.touchingWall === false
+    blue.touchingWall === false &&
+    blue.powerUp === false
   ) {
     blue.x -= 0.75;
     blue.lastKey = 37;
@@ -226,7 +273,8 @@ function update() {
   if (
     backgroundMaze.keys &&
     backgroundMaze.keys[40] &&
-    blue.touchingWall === false
+    blue.touchingWall === false &&
+    blue.powerUp === false
   ) {
     blue.y += 0.75;
     blue.lastKey = 40;
@@ -234,16 +282,18 @@ function update() {
   if (
     backgroundMaze.keys &&
     backgroundMaze.keys[38] &&
-    blue.touchingWall === false
+    blue.touchingWall === false &&
+    pink.powerUp === false
   ) {
     blue.y -= 0.75;
     blue.lastKey = 38;
   }
-  // pink hits wall
+  // blue hits wall
   if (
     backgroundMaze.keys &&
     blue.culpritKey === 39 &&
-    blue.touchingWall === true
+    blue.touchingWall === true &&
+    (blue.powerUp === false || blue.powerUp === true)
   ) {
     blue.x += 0;
     blue.lastKey = 39;
@@ -251,7 +301,8 @@ function update() {
   if (
     backgroundMaze.keys &&
     blue.culpritKey === 37 &&
-    blue.touchingWall === true
+    blue.touchingWall === true &&
+    (blue.powerUp === false || blue.powerUp === true)
   ) {
     blue.x -= 0;
     blue.lastKey = 37;
@@ -259,7 +310,8 @@ function update() {
   if (
     backgroundMaze.keys &&
     blue.culpritKey === 87 &&
-    blue.touchingWall === true
+    blue.touchingWall === true &&
+    (blue.powerUp === false || blue.powerUp === true)
   ) {
     blue.y += -0;
     blue.lastKey = 87;
@@ -267,10 +319,91 @@ function update() {
   if (
     backgroundMaze.keys &&
     blue.culpritKey === 83 &&
-    blue.touchingWall === true
+    blue.touchingWall === true &&
+    (blue.powerUp === false || blue.powerUp === true)
   ) {
     blue.y += 0;
     blue.lastKey = 83;
+  }
+  //
+  //
+  //
+  //
+  // add logic for power up
+  //pink keys are 68, 65, 87, 83
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[68] &&
+    pink.touchingWall === false &&
+    pink.powerUp === true
+  ) {
+    pink.x += 3;
+    pink.lastKey = 68;
+  }
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[65] &&
+    pink.touchingWall === false &&
+    pink.powerUp === true
+  ) {
+    pink.x -= 3;
+    pink.lastKey = 65;
+  }
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[87] &&
+    pink.touchingWall === false &&
+    pink.powerUp === true
+  ) {
+    pink.y -= 3;
+    pink.lastKey = 87;
+  }
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[83] &&
+    pink.touchingWall === false &&
+    pink.powerUp === true
+  ) {
+    pink.y += 3;
+    pink.lastKey = 83;
+  }
+  //
+  //
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[39] &&
+    blue.touchingWall === false &&
+    blue.powerUp === true
+  ) {
+    blue.x += 3;
+    blue.lastKey = 39;
+  }
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[37] &&
+    blue.touchingWall === false &&
+    blue.powerUp === true
+  ) {
+    blue.x -= 3;
+    blue.lastKey = 37;
+  }
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[40] &&
+    blue.touchingWall === false &&
+    blue.powerUp === true
+  ) {
+    blue.y += 3;
+    blue.lastKey = 40;
+  }
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[38] &&
+    blue.touchingWall === false &&
+    pink.powerUp === true
+  ) {
+    blue.y -= 3;
+    blue.lastKey = 38;
   }
 }
 
@@ -308,11 +441,28 @@ function checkTouch() {
   });
   if (logo.touchWith(pink)) {
     gameOver("ROSA");
-    // temporary fix for styling bug
   }
   if (logo.touchWith(blue)) {
     gameOver("AZUL");
   }
+  if (rabbit.touchWith(pink)) {
+    powerUp("ROSA");
+  }
+  if (rabbit.touchWith(blue)) {
+    powerUp("AZUL");
+  }
+}
+
+function powerUp(color) {
+  clearInterval(interval);
+  if (color === "ROSA") {
+    console.log("pink touched power up");
+    pink.powerUp = true;
+  } else {
+    blue.powerUp = true;
+  }
+
+  interval = null;
 }
 
 function gameOver(winnerNameString) {

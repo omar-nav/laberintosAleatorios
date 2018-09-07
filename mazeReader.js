@@ -180,20 +180,16 @@ function mazeReader() {
   // redraw rows with ctx
   function drawOddRow(rowArray) {
     ctx.beginPath();
-    // ctx.lineWidth = "3";
-    // ctx.strokeStyle = "black";
     rowArray.forEach(function(element, index) {
       // draw square
       // ctx.fillRect(x,y,color,width, height)
       if (element === "◾") {
-        // oddRowCtx.push([x, y, 5, 3.478]);
         oddRowCtx.push([x, y, 5, 3.478]);
         ctx.fillStyle = "#A66D3F";
         ctx.fillRect(x, y, 5, 3.478);
         x += 5;
       }
       if (element === " ") {
-        //oddRowCtx.push(["air"]);
         x += 5;
       }
       if (element === "—") {

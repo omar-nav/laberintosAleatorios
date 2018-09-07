@@ -147,16 +147,21 @@ class Rabbit {
     context.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
   touchWith(item) {
-    var touch =
-      this.x < item.x + item.width &&
-      this.x + this.width > item.x &&
-      this.y < item.y + item.height &&
-      this.y + this.height > item.y;
-    if (touch) {
-      // this.touch.play();
-      return true;
+    if (item != null) {
+      var touch =
+        this.x < item.x + item.width &&
+        this.x + this.width > item.x &&
+        this.y < item.y + item.height &&
+        this.y + this.height > item.y;
+
+      if (touch) {
+        // this.touch.play();
+        return true;
+      }
+      return false;
+    } else {
+      return false;
     }
-    return false;
   }
 }
 class Turtle {
@@ -177,16 +182,21 @@ class Turtle {
     context.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
   touchWith(item) {
-    var touch =
-      this.x < item.x + item.width &&
-      this.x + this.width > item.x &&
-      this.y < item.y + item.height &&
-      this.y + this.height > item.y;
-    if (touch) {
-      // this.touch.play();
-      return true;
+    if (item != null) {
+      var touch =
+        this.x < item.x + item.width &&
+        this.x + this.width > item.x &&
+        this.y < item.y + item.height &&
+        this.y + this.height > item.y;
+
+      if (touch) {
+        // this.touch.play();
+        return true;
+      }
+      return false;
+    } else {
+      return false;
     }
-    return false;
   }
 }
 // instancias
@@ -587,17 +597,24 @@ function checkTouch() {
   if (logo.touchWith(blue)) {
     gameOver("AZUL");
   }
-  if (rabbit.touchWith(pink)) {
-    powerUp("ROSA");
+
+  if (turtle === null) {
+  } else {
+    if (turtle.touchWith(pink)) {
+      powerDown("ROSA");
+    }
+    if (turtle.touchWith(blue)) {
+      powerDown("AZUL");
+    }
   }
-  if (rabbit.touchWith(blue)) {
-    powerUp("AZUL");
-  }
-  if (turtle.touchWith(pink)) {
-    powerDown("ROSA");
-  }
-  if (turtle.touchWith(blue)) {
-    powerDown("AZUL");
+  if (rabbit === null) {
+  } else {
+    if (rabbit.touchWith(pink)) {
+      powerUp("ROSA");
+    }
+    if (rabbit.touchWith(blue)) {
+      powerUp("AZUL");
+    }
   }
 }
 
@@ -605,8 +622,10 @@ function powerUp(color) {
   clearInterval(interval);
   if (color === "ROSA") {
     pink.powerUp = true;
+    rabbit = null;
   } else {
     blue.powerUp = true;
+    rabbit = null;
   }
 
   interval = null;
@@ -617,8 +636,10 @@ function powerDown(color) {
   if (color === "ROSA") {
     console.log("pink touched power down");
     pink.powerDown = true;
+    turtle.powerDown = null;
   } else {
     blue.powerDown = true;
+    turtle.powerDown = null;
   }
 
   interval = null;

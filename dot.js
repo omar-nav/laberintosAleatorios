@@ -9,7 +9,8 @@ var images = {
   pinkDot: "./images/pinkDot.png",
   blueDot: "./images/blueDot.svg",
   ironHack: "./images/IronHackLogo.png",
-  rabbit: "./images/rabbit.png"
+  rabbit: "./images/rabbit.png",
+  turtle: "./images/tortuga.png"
 };
 
 class Maze {
@@ -37,6 +38,7 @@ class Dot {
     this.height = 7; // 9
     this.touchingWall = false;
     this.powerUp = false;
+    this.powerDown = false;
     this.culpritKey = 0;
     this.lastKey = 0;
     this.image = new Image();
@@ -157,12 +159,43 @@ class Rabbit {
     return false;
   }
 }
+class Turtle {
+  constructor(x, y, image) {
+    this.x = x;
+    this.y = y;
+    this.width = 23;
+    this.height = 10;
+    this.image = new Image();
+    this.image.src = image;
+    this.image.onload = () => {
+      this.draw();
+    };
+    // this.touch = new Audio();
+    // this.touch.src = "./sounds/JSnoTeEspera.m4a";
+  }
+  draw() {
+    context.drawImage(this.image, this.x, this.y, this.width, this.height);
+  }
+  touchWith(item) {
+    var touch =
+      this.x < item.x + item.width &&
+      this.x + this.width > item.x &&
+      this.y < item.y + item.height &&
+      this.y + this.height > item.y;
+    if (touch) {
+      // this.touch.play();
+      return true;
+    }
+    return false;
+  }
+}
 // instancias
 let backgroundMaze = new Maze();
 let pink = new Dot(9, 4, images.pinkDot);
 let blue = new Dot(209, 129, images.blueDot);
 let logo = new Prize(102, 59, images.ironHack);
 let rabbit = new Rabbit(4, 130, images.rabbit);
+let turtle = new Turtle(197, 4, images.turtle);
 
 function update() {
   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -175,6 +208,9 @@ function update() {
   if (pink.powerUp === false && blue.powerUp === false) {
     rabbit.draw();
   }
+  if (pink.powerDown === false && blue.powerDown === false) {
+    turtle.draw();
+  }
   checkTouch();
   checkvals();
   //pink keys are 68, 65, 87, 83
@@ -182,7 +218,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[68] &&
     pink.touchingWall === false &&
-    pink.powerUp === false
+    pink.powerUp === false &&
+    pink.powerDown === false
   ) {
     pink.x += 0.75;
     pink.lastKey = 68;
@@ -191,7 +228,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[65] &&
     pink.touchingWall === false &&
-    pink.powerUp === false
+    pink.powerUp === false &&
+    pink.powerDown === false
   ) {
     pink.x -= 0.75;
     pink.lastKey = 65;
@@ -200,7 +238,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[87] &&
     pink.touchingWall === false &&
-    pink.powerUp === false
+    pink.powerUp === false &&
+    pink.powerDown === false
   ) {
     pink.y -= 0.75;
     pink.lastKey = 87;
@@ -209,7 +248,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[83] &&
     pink.touchingWall === false &&
-    pink.powerUp === false
+    pink.powerUp === false &&
+    pink.powerDown === false
   ) {
     pink.y += 0.75;
     pink.lastKey = 83;
@@ -219,7 +259,8 @@ function update() {
     backgroundMaze.keys &&
     pink.culpritKey === 68 &&
     pink.touchingWall === true &&
-    (pink.powerUp === false || pink.powerUp === true)
+    (pink.powerUp === false || pink.powerUp === true) &&
+    (pink.powerDown === false || pink.powerDown === true)
   ) {
     pink.x += 0;
     pink.lastKey = 68;
@@ -228,7 +269,8 @@ function update() {
     backgroundMaze.keys &&
     pink.culpritKey === 65 &&
     pink.touchingWall === true &&
-    (pink.powerUp === false || pink.powerUp === true)
+    (pink.powerUp === false || pink.powerUp === true) &&
+    (pink.powerDown === false || pink.powerDown === true)
   ) {
     pink.x -= 0;
     pink.lastKey = 65;
@@ -237,7 +279,8 @@ function update() {
     backgroundMaze.keys &&
     pink.culpritKey === 87 &&
     pink.touchingWall === true &&
-    (pink.powerUp === false || pink.powerUp === true)
+    (pink.powerUp === false || pink.powerUp === true) &&
+    (pink.powerDown === false || pink.powerDown === true)
   ) {
     pink.y += -0;
     pink.lastKey = 87;
@@ -246,7 +289,8 @@ function update() {
     backgroundMaze.keys &&
     pink.culpritKey === 83 &&
     pink.touchingWall === true &&
-    (pink.powerUp === false || pink.powerUp === true)
+    (pink.powerUp === false || pink.powerUp === true) &&
+    (pink.powerDown === false || pink.powerDown === true)
   ) {
     pink.y += 0;
     pink.lastKey = 83;
@@ -256,7 +300,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[39] &&
     blue.touchingWall === false &&
-    blue.powerUp === false
+    blue.powerUp === false &&
+    blue.powerDown === false
   ) {
     blue.x += 0.75;
     blue.lastKey = 39;
@@ -265,7 +310,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[37] &&
     blue.touchingWall === false &&
-    blue.powerUp === false
+    blue.powerUp === false &&
+    blue.powerDown === false
   ) {
     blue.x -= 0.75;
     blue.lastKey = 37;
@@ -274,7 +320,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[40] &&
     blue.touchingWall === false &&
-    blue.powerUp === false
+    blue.powerUp === false &&
+    blue.powerDown === false
   ) {
     blue.y += 0.75;
     blue.lastKey = 40;
@@ -283,7 +330,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[38] &&
     blue.touchingWall === false &&
-    pink.powerUp === false
+    pink.powerUp === false &&
+    blue.powerDown === false
   ) {
     blue.y -= 0.75;
     blue.lastKey = 38;
@@ -293,7 +341,8 @@ function update() {
     backgroundMaze.keys &&
     blue.culpritKey === 39 &&
     blue.touchingWall === true &&
-    (blue.powerUp === false || blue.powerUp === true)
+    (blue.powerUp === false || blue.powerUp === true) &&
+    (blue.powerDown === false || blue.powerDown === true)
   ) {
     blue.x += 0;
     blue.lastKey = 39;
@@ -302,7 +351,8 @@ function update() {
     backgroundMaze.keys &&
     blue.culpritKey === 37 &&
     blue.touchingWall === true &&
-    (blue.powerUp === false || blue.powerUp === true)
+    (blue.powerUp === false || blue.powerUp === true) &&
+    (blue.powerDown === false || blue.powerDown === true)
   ) {
     blue.x -= 0;
     blue.lastKey = 37;
@@ -311,7 +361,8 @@ function update() {
     backgroundMaze.keys &&
     blue.culpritKey === 87 &&
     blue.touchingWall === true &&
-    (blue.powerUp === false || blue.powerUp === true)
+    (blue.powerUp === false || blue.powerUp === true) &&
+    (blue.powerDown === false || blue.powerDown === true)
   ) {
     blue.y += -0;
     blue.lastKey = 87;
@@ -320,7 +371,8 @@ function update() {
     backgroundMaze.keys &&
     blue.culpritKey === 83 &&
     blue.touchingWall === true &&
-    (blue.powerUp === false || blue.powerUp === true)
+    (blue.powerUp === false || blue.powerUp === true) &&
+    (blue.powerDown === false || blue.powerDown === true)
   ) {
     blue.y += 0;
     blue.lastKey = 83;
@@ -335,7 +387,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[68] &&
     pink.touchingWall === false &&
-    pink.powerUp === true
+    pink.powerUp === true &&
+    pink.powerDown === false
   ) {
     pink.x += 3;
     pink.lastKey = 68;
@@ -344,7 +397,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[65] &&
     pink.touchingWall === false &&
-    pink.powerUp === true
+    pink.powerUp === true &&
+    pink.powerDown === false
   ) {
     pink.x -= 3;
     pink.lastKey = 65;
@@ -353,7 +407,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[87] &&
     pink.touchingWall === false &&
-    pink.powerUp === true
+    pink.powerUp === true &&
+    pink.powerDown === false
   ) {
     pink.y -= 3;
     pink.lastKey = 87;
@@ -362,7 +417,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[83] &&
     pink.touchingWall === false &&
-    pink.powerUp === true
+    pink.powerUp === true &&
+    pink.powerDown === false
   ) {
     pink.y += 3;
     pink.lastKey = 83;
@@ -373,7 +429,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[39] &&
     blue.touchingWall === false &&
-    blue.powerUp === true
+    blue.powerUp === true &&
+    blue.powerDown === true
   ) {
     blue.x += 3;
     blue.lastKey = 39;
@@ -382,7 +439,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[37] &&
     blue.touchingWall === false &&
-    blue.powerUp === true
+    blue.powerUp === true &&
+    blue.powerDown === true
   ) {
     blue.x -= 3;
     blue.lastKey = 37;
@@ -391,7 +449,8 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[40] &&
     blue.touchingWall === false &&
-    blue.powerUp === true
+    blue.powerUp === true &&
+    blue.powerDown === true
   ) {
     blue.y += 3;
     blue.lastKey = 40;
@@ -400,9 +459,92 @@ function update() {
     backgroundMaze.keys &&
     backgroundMaze.keys[38] &&
     blue.touchingWall === false &&
-    pink.powerUp === true
+    pink.powerUp === true &&
+    blue.powerDown === true
   ) {
     blue.y -= 3;
+    blue.lastKey = 38;
+  }
+  //
+  //
+  //
+  //
+  //
+  ///
+  // add logic for power down
+  //pink keys are 68, 65, 87, 83
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[68] &&
+    pink.touchingWall === false &&
+    pink.powerDown === true
+  ) {
+    pink.x += 0.1;
+    pink.lastKey = 68;
+  }
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[65] &&
+    pink.touchingWall === false &&
+    pink.powerDown === true
+  ) {
+    pink.x -= 0.1;
+    pink.lastKey = 65;
+  }
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[87] &&
+    pink.touchingWall === false &&
+    pink.powerDown === true
+  ) {
+    pink.y -= 0.1;
+    pink.lastKey = 87;
+  }
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[83] &&
+    pink.touchingWall === false &&
+    pink.powerDown === true
+  ) {
+    pink.y += 0.1;
+    pink.lastKey = 83;
+  }
+  //
+  //
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[39] &&
+    blue.touchingWall === false &&
+    blue.powerDown === true
+  ) {
+    blue.x += 0.1;
+    blue.lastKey = 39;
+  }
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[37] &&
+    blue.touchingWall === false &&
+    blue.powerDown === true
+  ) {
+    blue.x -= 0.1;
+    blue.lastKey = 37;
+  }
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[40] &&
+    blue.touchingWall === false &&
+    blue.powerDown === true
+  ) {
+    blue.y += 0.1;
+    blue.lastKey = 40;
+  }
+  if (
+    backgroundMaze.keys &&
+    backgroundMaze.keys[38] &&
+    blue.touchingWall === false &&
+    blue.powerDown === true
+  ) {
+    blue.y -= 0.1;
     blue.lastKey = 38;
   }
 }
@@ -451,15 +593,32 @@ function checkTouch() {
   if (rabbit.touchWith(blue)) {
     powerUp("AZUL");
   }
+  if (turtle.touchWith(pink)) {
+    powerDown("ROSA");
+  }
+  if (turtle.touchWith(blue)) {
+    powerDown("AZUL");
+  }
 }
 
 function powerUp(color) {
   clearInterval(interval);
   if (color === "ROSA") {
-    console.log("pink touched power up");
     pink.powerUp = true;
   } else {
     blue.powerUp = true;
+  }
+
+  interval = null;
+}
+
+function powerDown(color) {
+  clearInterval(interval);
+  if (color === "ROSA") {
+    console.log("pink touched power down");
+    pink.powerDown = true;
+  } else {
+    blue.powerDown = true;
   }
 
   interval = null;
@@ -485,7 +644,6 @@ function gameOver(winnerNameString) {
   context.font = "bold 12px Indie Flower";
   context.fillText(message2, 0, 60);
   context.fillText(message3, 0, 90);
-
   interval = null;
   backgroundMaze.music.pause();
 }

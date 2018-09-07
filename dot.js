@@ -331,6 +331,7 @@ function gameOver(winnerNameString) {
   context.font = "bold 25px Indie Flower";
 
   context.fillText(message, 0, 30);
+  context.fillStyle = "white";
   context.font = "bold 12px Indie Flower";
   context.fillText(message2, 0, 60);
   context.fillText(message3, 0, 90);

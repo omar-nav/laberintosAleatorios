@@ -4,31 +4,32 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>juego de laberinto</title>
+  <title>random mazes of life</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" media="screen" href="./main.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="./css/main.css" />
 </head>
 
 <body onload="display(maze(10, 11))">
   <section>
-    <h1>LABERINTOS ALEATORIOS</h1>
-    <h4 id="life">de la vida</h4>
-    <h4>intenta llegar al centro antes que tu oponente
+    <h1>RANDOM MAZES</h1>
+    <h4 id="life">of life</h4>
+    <h4>try to navigate to center before your opponent
     </h4>
+    <p>Controls are WASD and arrows</p>
     <canvas id="someCanvas">
     </canvas>
     <div id="maze">
       <pre id="out"></pre>
     </div>
     <!-- on button click draw maze -->
-    <button class="button" type="button" onmousedown="display(maze(10, 11))">crear otro laberinto</button>
+    <button class="button" type="button" onmousedown="display(maze(10, 11))">create another maze</button>
     <!-- onhover is possible alternative -->
-    <button id="proceder" class="button" type="button" onmousedown="storeMaze()"><a href="./game.html">proceder a la
-        batalla
+    <button id="proceder" class="button" type="button" onmousedown="storeMaze()"><a href="./game.html">proceed to the 
+        battle
       </a></button>
 
-    <script src=" ./mazeConstructor.js "></script>
+    <script src=" ./mazeConstructor.js"></script>
     <script src="./mazeReader.js "></script>
   </section>
 </body>
